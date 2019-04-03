@@ -138,7 +138,7 @@ class P
                 emit("constructed context-specific: "); 
                 System.out.printf("%02x",tag);
                 emitnl();
-                print(level+1,value);
+                if(value.length>0)print(level+1,value);
             }
         }
         else if ((tag&0x1f)==0x1f)
@@ -169,7 +169,14 @@ class P
             return (256*Byte.toUnsignedInt(asn1Object[2]))+
                     Byte.toUnsignedInt(asn1Object[3]);
         }
-        else throw(new Exception());
+        else if(Byte.toUnsignedInt(asn1Object[1])==0x83) 
+        {
+            return (256*256*Byte.toUnsignedInt(asn1Object[2]))+
+                   (256*Byte.toUnsignedInt(asn1Object[3]))+
+                    Byte.toUnsignedInt(asn1Object[4]);
+        }
+        else { System.out.printf("%02x\n",asn1Object[1]);
+throw(new Exception());}
     }
 
     public static int getLengthOfLength(byte asn1Object[]) throws Exception
@@ -185,6 +192,10 @@ class P
         else if(Byte.toUnsignedInt(asn1Object[1])==0x82) 
         {
             return 3;
+        }
+        else if(Byte.toUnsignedInt(asn1Object[1])==0x83) 
+        {
+            return 4;
         }
         else throw(new Exception());
     }

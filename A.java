@@ -42,7 +42,7 @@ class A
        }
 
         String s=new String(Files.readAllBytes(path));
-        s=s.replaceAll("-----(BEGIN|END) [A-Z]+-----","");
+        s=s.replaceAll("-----(BEGIN|END) [A-Z ]+-----","");
         b = Base64.getMimeDecoder().decode(s);
         P.print(0,b);
     }
